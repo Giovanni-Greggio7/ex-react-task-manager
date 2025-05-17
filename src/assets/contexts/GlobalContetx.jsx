@@ -21,7 +21,8 @@ const GlobalProvider = ({ children }) => {
 
     const value = {
         tasks,
-        fetchData
+        fetchData,
+        url
     }
 
     return(
