@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 const DATA_FILE = path.join(__dirname, "tasks.json");
 
 const app = express();
-const PORT = 3001;
+const PORT = 3002;
 
 // Middleware
 app.use(
