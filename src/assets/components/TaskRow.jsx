@@ -2,17 +2,14 @@ import { memo } from "react"
 
 const TaskRow = memo(({ id, title, status, createdAt }) => {
 
+    const taskStatus = status.replace(" ", "").toLowerCase()
+
     return (
-        <tr className={
-            status === 'To do' ? 'table-danger' :
-            status === 'Doing' ? 'table-warning' :
-            status === 'Done' ? 'table-success' :
-            ''
-          }>
+        <tr>
             <th scope='row'>{id}</th>
             <td>{title}</td>
-            <td>{status}</td>
-            <td>{createdAt}</td>
+            <td className={taskStatus}>{status}</td>
+            <td>{new Date(createdAt).toLocaleDateString()}</td>
         </tr>
     )
     

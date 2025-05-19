@@ -1,0 +1,12 @@
+td.todo{
+    background-color: rgb(255, 0, 0);
+    color: white
+}
+
+td.doing{
+    background-color: rgb(229, 255, 0);
+}
+
+td.done{
+    background-color: rgb(0, 255, 0);
+}

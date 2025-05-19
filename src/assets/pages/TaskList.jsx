@@ -16,7 +16,7 @@ export default function TaskList() {
                 <h1 className='text-center'>Lista Task</h1>
             </div>
             <div>
-                <table class="table text-center">
+                <table className="table text-center">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
