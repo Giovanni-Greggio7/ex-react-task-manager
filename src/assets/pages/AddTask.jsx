@@ -1,10 +1,13 @@
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useMemo, useContext } from 'react'
+import { useGlobalContext } from '../contexts/GlobalContetx'
 
 export default function AddTask() {
 
     const [title, setTitle] = useState('')
     const descriptionRef = useRef()
     const statusRef = useRef()
+
+    const { addTask } = useGlobalContext()
 
     const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
 
@@ -13,20 +16,30 @@ export default function AddTask() {
         if (!title.trim()) return 'Il titolo non può essere vuoto'
         if (title.trim().split('').some(char => symbols.includes(char))) return 'Il titolo non deve  contenere caratteri speciali'
         return ''
-        
+
     }, [title])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async event => {
 
-        e.preventDefault()
+        event.preventDefault()
 
-        const description = descriptionRef.current.value
-        const status = statusRef.current.value
+        let description = descriptionRef.current.value
+        let status = statusRef.current.value
 
         const newTask = {
             title: title.trim(),
             description: description,
             status: status
+        }
+
+        try{
+            await addTask(newTask)
+            alert('Task creata con successo!')
+            setTitle('')
+            description = ''
+            status = ''
+        }catch(error){
+            alert(error.message)
         }
 
         console.log(newTask)

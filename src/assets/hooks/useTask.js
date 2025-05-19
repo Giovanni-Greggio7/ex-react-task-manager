@@ -4,15 +4,6 @@ export default function useTask() {
 
     const [tasks, setTasks] = useState([])
 
-    const initialValue = {
-
-        title: '',
-        description: '',
-        status: ''
-
-    }
-    const [dataTask, setDataTask] = useState(initialValue)
-
     const url = import.meta.env.VITE_API_URL
 
     const fetchData = (url) => {
@@ -36,7 +27,7 @@ export default function useTask() {
         const { success, task, message } = await response.json()
         if (!success) throw new Error(message)
 
-        setDataTask(prev => [...prev, task])
+        setTasks(prev => [...prev, task])
 
     }
 
