@@ -13,6 +13,7 @@ export default function AddTask() {
         if (!title.trim()) return 'Il titolo non può essere vuoto'
         if (title.trim().split('').some(char => symbols.includes(char))) return 'Il titolo non deve  contenere caratteri speciali'
         return ''
+        
     }, [title])
 
     const handleSubmit = (e) => {
