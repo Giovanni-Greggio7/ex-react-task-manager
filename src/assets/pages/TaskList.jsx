@@ -4,11 +4,7 @@ import TaskRow from '../components/TaskRow'
 
 export default function TaskList() {
 
-    const { tasks, fetchData } = useGlobalContext()
-
-    useEffect(() => {
-        fetchData()
-    }, [])
+    const { tasks } = useGlobalContext()
 
     return (
         <>
