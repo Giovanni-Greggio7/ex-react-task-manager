@@ -32,13 +32,13 @@ export default function AddTask() {
             status: status
         }
 
-        try{
+        try {
             await addTask(newTask)
             alert('Task creata con successo!')
             setTitle('')
             description = ''
             status = ''
-        }catch(error){
+        } catch (error) {
             alert(error.message)
         }
 
@@ -48,42 +48,56 @@ export default function AddTask() {
 
     return (
 
-        <div>
+        <div className="container mt-4">
 
-            <h1 className='text-center'>Aggiungi Task</h1>
+            <h1 className='text-center mb-4'>Aggiungi Task</h1>
 
-            <form onSubmit={handleSubmit}>
-                <label>Nuova task
-                    <input type="text"
+            <form onSubmit={handleSubmit} className="p-4 border rounded bg-light shadow-sm">
+
+                <label className="form-label d-block mb-3">
+                    Nuova task
+                    <input
+                        type="text"
+                        className={`form-control mt-1 ${isTitleNotValid ? 'is-invalid' : title.trim() ? 'is-valid' : ''}`}
                         placeholder='Titolo task'
                         value={title}
-                        onChange={(e) => setTitle(e.target.value)} />
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
                     {isTitleNotValid &&
-                        <p style={{ color: 'red' }}>
+                        <p className="invalid-feedback d-block">
                             {isTitleNotValid}
                         </p>
                     }
                 </label>
 
-
-                <label>Descrizione
-                    <textarea type='text'
+                <label className="form-label d-block mb-3">
+                    Descrizione
+                    <textarea
+                        type='text'
+                        className="form-control mt-1"
                         placeholder='Breve descrizione'
-                        ref={descriptionRef} />
+                        ref={descriptionRef}
+                    />
                 </label>
 
-                <label>Stato
-                    <select ref={statusRef}>
+                <label className="form-label d-block mb-4">
+                    Stato
+                    <select className="form-select mt-1" ref={statusRef}>
                         <option value="To do">To do</option>
                         <option value="Doing">Doing</option>
                         <option value="Done">Done</option>
                     </select>
                 </label>
 
+                <button
+                    type='submit'
+                    className="btn btn-primary w-100"
+                    disabled={isTitleNotValid}
+                >
+                    Aggiungi task
+                </button>
 
-                <button type='submit' disabled={isTitleNotValid}>Aggiungi task</button>
             </form>
-
 
         </div>
     )
