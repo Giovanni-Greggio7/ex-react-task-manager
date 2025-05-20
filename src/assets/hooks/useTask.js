@@ -64,7 +64,22 @@ export default function useTask() {
     }
 
     // Placeholder per aggiornare una task (funzionalità da implementare)
-    const updateTask = () => { }
+    const updateTask = async updatedTask => {
+
+        const response = await fetch(`${url}/tasks/${updatedTask.id}`, {
+            method: 'PUT',
+            headers: { 'Content-type': 'application/json' },
+            body: JSON.stringify(updatedTask)
+        })
+
+        const { success, message, task: newTask } = await response.json()
+
+        if (!success) throw new Error(message)
+
+        setTasks(prev => prev.map(oldTask => oldTask.id === newTask.id ? newTask : oldTask))
+    }
+
+
 
     // Restituisce le task e le funzioni per gestirle
     return { tasks, addTask, removeTask, updateTask }
