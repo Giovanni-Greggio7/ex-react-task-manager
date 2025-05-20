@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 // Importa le pagine della tua applicazione
 import AddTask from './assets/pages/AddTask'
 import TaskList from './assets/pages/TaskList'
+import TaskDetail from './assets/pages/TaskDetail'
 
 // Importa il layout che contiene la struttura comune (es. navbar, footer)
 import DefaultLayout from './assets/layout/DefaultLayout'
@@ -26,6 +27,7 @@ function App() {
             <Route element={<DefaultLayout />}>
               {/* Rotta principale: mostra la lista delle task */}
               <Route path='/' element={<TaskList />} />
+              <Route path='/tasks/:id' element={<TaskDetail />} />
 
               {/* Rotta secondaria: mostra il form per aggiungere task */}
               <Route path='aggiungi-task' element={<AddTask />} />
