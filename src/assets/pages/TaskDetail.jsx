@@ -1,13 +1,16 @@
 // Importa useContext per accedere ai context React
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 // Importa useParams per ottenere i parametri dinamici dalla URL
 // Importa useNavigate per eseguire una navigazione programmata dopo l'eliminazione
 import { useParams, useNavigate } from 'react-router-dom'
 // Importa il context globale dove sono salvati i task
 import { useGlobalContext } from '../contexts/GlobalContetx'
+import Modal from '../components/Modal'
 
 // Componente che mostra i dettagli di un singolo task
 export default function TaskDetail() {
+
+    const [show, setShow] = useState(false)
 
     // Estrai l'id del task dalla URL
     const { id } = useParams()
@@ -75,7 +78,13 @@ export default function TaskDetail() {
                     <p className="mb-4"><strong>Data di creazione:</strong> {new Date(task.createdAt).toLocaleDateString()}</p>
 
                     {/* Pulsante che attiva la funzione di eliminazione */}
-                    <button className="btn btn-danger" onClick={handleDelete}>Elimina task</button>
+                    <button className="btn btn-danger" onClick={() => setShow(true)}>Elimina task</button>
+                    <Modal
+                        title='Rimuovere la task:'
+                        content={task.title}
+                        show={show}
+                        onClose={() => setShow(false)}
+                        onConfirm={handleDelete} />
                 </div>
             </div>
         </div>
