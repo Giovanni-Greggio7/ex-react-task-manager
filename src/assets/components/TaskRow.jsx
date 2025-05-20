@@ -2,7 +2,7 @@
 import { memo } from "react"
 import { Link } from "react-router-dom"
 
-// Definisce un componente memoizzato chiamato TaskRow, che riceve le props: id, title, status e createdAt
+// Definisce un componente memoizzato chiamato TaskRow, che riceve la prop task
 const TaskRow = memo(({ task }) => {
 
     // Elimina spazi dal valore di status e lo converte in minuscolo per usarlo come classe CSS

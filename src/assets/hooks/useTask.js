@@ -43,21 +43,24 @@ export default function useTask() {
         setTasks(prev => [...prev, task])
     }
 
-    // Placeholder per rimuovere una task (funzionalità da implementare)
+
+    // Funzione asincrona per eliminare un task dal backend e aggiornare lo stato locale
     const removeTask = async id => {
 
+        // Invia una richiesta HTTP DELETE all'endpoint specifico del task da eliminare
         const response = await fetch(`${url}/tasks/${id}`, {
-            method: 'DELETE',
+            method: 'DELETE', // Specifica il metodo HTTP
         })
 
-        // Destruttura la risposta JSON
+        // Estrae il risultato della risposta come JSON e destruttura "success" e "message"
         const { success, message } = await response.json()
 
-        // Se la richiesta non ha avuto successo, lancia un errore con il messaggio
+        // Se il backend indica che la rimozione non è andata a buon fine, genera un errore
         if (!success) throw new Error(message)
 
-        // Se la task è stata creata con successo, aggiornala nello stato
-        setTasks(prev => [...prev])
+        // Aggiorna lo stato dei task rimuovendo quello con l'id specificato
+        // Nota: parseInt è usato se id è una stringa
+        setTasks(prev => prev.filter(task => task.id !== parseInt(id)))
     }
 
     // Placeholder per aggiornare una task (funzionalità da implementare)

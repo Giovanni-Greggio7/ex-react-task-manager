@@ -1,6 +1,7 @@
 // Importa useContext per accedere ai context React
 import { useContext } from 'react'
 // Importa useParams per ottenere i parametri dinamici dalla URL
+// Importa useNavigate per eseguire una navigazione programmata dopo l'eliminazione
 import { useParams, useNavigate } from 'react-router-dom'
 // Importa il context globale dove sono salvati i task
 import { useGlobalContext } from '../contexts/GlobalContetx'
@@ -14,22 +15,30 @@ export default function TaskDetail() {
     // Ottieni la lista dei task dal context globale
     const { tasks } = useGlobalContext()
 
+    // Estrai anche la funzione per rimuovere un task dal context
     const { removeTask } = useGlobalContext()
 
+    // Hook per la navigazione programmata (es. dopo eliminazione)
     const navigate = useNavigate()
 
     // Cerca il task corrispondente all'id (convertito a intero)
     const task = tasks.find(task => task.id === parseInt(id))
 
+    // Funzione che gestisce l'eliminazione del task
     const handleDelete = async () => {
         try {
+            // Chiama la funzione per rimuovere il task
             await removeTask(id)
-            alert('Task eliminata con successo!') 
+            // Mostra conferma all'utente
+            alert('Task eliminata con successo!')
+            // Naviga alla home dopo l'eliminazione
             navigate('/')
         } catch (error) {
+            // Mostra errore se qualcosa va storto
             alert(error.message)
         }
 
+        // Log dei task (opzionale, utile per debug)
         console.log(tasks)
     }
 
@@ -65,7 +74,7 @@ export default function TaskDetail() {
                     {/* Data di creazione, formattata come data leggibile */}
                     <p className="mb-4"><strong>Data di creazione:</strong> {new Date(task.createdAt).toLocaleDateString()}</p>
 
-                    {/* Pulsante per eliminare il task (funzionalità da implementare) */}
+                    {/* Pulsante che attiva la funzione di eliminazione */}
                     <button className="btn btn-danger" onClick={handleDelete}>Elimina task</button>
                 </div>
             </div>
