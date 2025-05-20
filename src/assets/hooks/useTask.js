@@ -21,7 +21,7 @@ export default function useTask() {
     // useEffect esegue fetchData solo al primo render
     useEffect(() => {
         fetchData(url)
-    }, [])
+    }, [tasks])
 
     // Funzione asincrona per aggiungere una nuova task
     const addTask = async newTask => {
@@ -44,7 +44,21 @@ export default function useTask() {
     }
 
     // Placeholder per rimuovere una task (funzionalità da implementare)
-    const removeTask = () => { }
+    const removeTask = async id => {
+
+        const response = await fetch(`${url}/tasks/${id}`, {
+            method: 'DELETE',
+        })
+
+        // Destruttura la risposta JSON
+        const { success, message } = await response.json()
+
+        // Se la richiesta non ha avuto successo, lancia un errore con il messaggio
+        if (!success) throw new Error(message)
+
+        // Se la task è stata creata con successo, aggiornala nello stato
+        setTasks(prev => [...prev])
+    }
 
     // Placeholder per aggiornare una task (funzionalità da implementare)
     const updateTask = () => { }

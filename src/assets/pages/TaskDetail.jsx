@@ -1,7 +1,7 @@
 // Importa useContext per accedere ai context React
 import { useContext } from 'react'
 // Importa useParams per ottenere i parametri dinamici dalla URL
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 // Importa il context globale dove sono salvati i task
 import { useGlobalContext } from '../contexts/GlobalContetx'
 
@@ -14,8 +14,24 @@ export default function TaskDetail() {
     // Ottieni la lista dei task dal context globale
     const { tasks } = useGlobalContext()
 
+    const { removeTask } = useGlobalContext()
+
+    const navigate = useNavigate()
+
     // Cerca il task corrispondente all'id (convertito a intero)
     const task = tasks.find(task => task.id === parseInt(id))
+
+    const handleDelete = async () => {
+        try {
+            await removeTask(id)
+            alert('Task eliminata con successo!') 
+            navigate('/')
+        } catch (error) {
+            alert(error.message)
+        }
+
+        console.log(tasks)
+    }
 
     // Se il task non esiste, mostra un messaggio di errore
     if (!task) {
@@ -50,7 +66,7 @@ export default function TaskDetail() {
                     <p className="mb-4"><strong>Data di creazione:</strong> {new Date(task.createdAt).toLocaleDateString()}</p>
 
                     {/* Pulsante per eliminare il task (funzionalità da implementare) */}
-                    <button className="btn btn-danger">Elimina task</button>
+                    <button className="btn btn-danger" onClick={handleDelete}>Elimina task</button>
                 </div>
             </div>
         </div>

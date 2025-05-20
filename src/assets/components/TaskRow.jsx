@@ -15,7 +15,7 @@ const TaskRow = memo(({ task }) => {
             <th scope='row'>{task.id}</th>
 
             {/* Mostra il titolo della task */}
-            <Link to={`/tasks/${task.id}`}><td>{task.title}</td></Link>
+            <td><Link to={`/tasks/${task.id}`}>{task.title}</Link></td>
 
             {/* Mostra lo stato della task con una classe dinamica basata sullo stato */}
             <td className={taskStatus}>{task.status}</td>
