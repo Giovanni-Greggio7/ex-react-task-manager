@@ -18,10 +18,12 @@ export default function useTask() {
             .catch(error => console.error(error)) // Gestisce eventuali errori
     }
 
-    // useEffect esegue fetchData solo al primo render
+    // useEffect esegue fetchData ogni volta che cambia l'array "tasks" (⚠️ attenzione: può causare loop infinito)
+    // In pratica viene eseguito ad ogni modifica dello stato, quindi chiamerà fetchData ripetutamente.
+    // Dovresti usare una dipendenza vuota [] se vuoi chiamarlo solo al primo render.
     useEffect(() => {
         fetchData(url)
-    }, [tasks])
+    }, [tasks]) // ⚠️ Attenzione: dipendenza su `tasks` può causare richieste infinite
 
     // Funzione asincrona per aggiungere una nuova task
     const addTask = async newTask => {
@@ -43,7 +45,6 @@ export default function useTask() {
         setTasks(prev => [...prev, task])
     }
 
-
     // Funzione asincrona per eliminare un task dal backend e aggiornare lo stato locale
     const removeTask = async id => {
 
@@ -63,24 +64,26 @@ export default function useTask() {
         setTasks(prev => prev.filter(task => task.id !== parseInt(id)))
     }
 
-    // Placeholder per aggiornare una task (funzionalità da implementare)
+    // Funzione asincrona per aggiornare una task esistente nel backend e nello stato locale
     const updateTask = async updatedTask => {
 
+        // Invia una richiesta PUT all'endpoint con l'id della task da aggiornare
         const response = await fetch(`${url}/tasks/${updatedTask.id}`, {
             method: 'PUT',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(updatedTask)
+            body: JSON.stringify(updatedTask) // Corpo della richiesta in formato JSON
         })
 
+        // Estrae il risultato della risposta
         const { success, message, task: newTask } = await response.json()
 
+        // In caso di errore, genera un'eccezione con il messaggio ricevuto
         if (!success) throw new Error(message)
 
+        // Aggiorna la task corrispondente nello stato
         setTasks(prev => prev.map(oldTask => oldTask.id === newTask.id ? newTask : oldTask))
     }
 
-
-
-    // Restituisce le task e le funzioni per gestirle
+    // Restituisce le task e le funzioni per gestirle (aggiunta, rimozione, aggiornamento)
     return { tasks, addTask, removeTask, updateTask }
 }
