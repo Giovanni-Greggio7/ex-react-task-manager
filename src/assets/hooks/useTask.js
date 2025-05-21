@@ -23,7 +23,7 @@ export default function useTask() {
     // Dovresti usare una dipendenza vuota [] se vuoi chiamarlo solo al primo render.
     useEffect(() => {
         fetchData(url)
-    }, [tasks]) // ⚠️ Attenzione: dipendenza su `tasks` può causare richieste infinite
+    }, []) // ⚠️ Attenzione: dipendenza su `tasks` può causare richieste infinite
 
     // Funzione asincrona per aggiungere una nuova task
     const addTask = async newTask => {
